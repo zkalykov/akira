@@ -19,7 +19,7 @@ export default function Akira() {
             <div className="flex items-center gap-2 px-4 pt-4">
               <div className="h-3 w-3 rounded-full bg-green-500" />
               <span className="text-xs font-bold tracking-widest uppercase text-white/80">
-                akira
+                akira beta
               </span>
 
               <button className="ml-auto flex items-center gap-1 bg-green-800 hover:bg-green-700 text-white font-bold text-sm px-3 py-1 rounded-lg transition group hover:cursor-pointer">
