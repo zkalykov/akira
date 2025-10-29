@@ -1,11 +1,9 @@
 import OpenAI from "openai";
 
-const OPENAI_API_KEY = "ysk-proj-BYunCGh8gsCIYXM_i6-AOV6eXkTumVxozirErW39s3u5k4N3UbH5CpZCq6P0kwHxhsvg4Qjb1JT3BlbkFJPuQXRpYP9pcn4MGBvJW4BCg20q-rF_IaQqfA1d855sH4rUulrfoDTNWze5av8M-m725AG5IfEA"
-
 // Initialize OpenAI client
 const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true, // Note: In production, use API routes instead
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true, // Note: In production, use API routes instead
 });
 
 export interface GeneratedWebsite {
@@ -18,8 +16,12 @@ export interface GeneratedWebsite {
 export async function generateWebsite(
     userPrompt: string
 ): Promise<GeneratedWebsite> {
-    try {
-        const systemPrompt = `You are an expert web developer. Generate clean, modern HTML, CSS, and JavaScript code based on user requirements.
+  try {
+    if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
+      throw new Error("OpenAI API key is not configured. Please add it to your .env.local file.");
+    }
+
+    const systemPrompt = `You are an expert web developer. Generate clean, modern HTML, CSS, and JavaScript code based on user requirements.
 
 IMPORTANT: Your response MUST be in this exact JSON format:
 {
@@ -64,19 +66,23 @@ Rules:
             css: result.css || "",
             js: result.js || "",
             message: result.message || "I've created your website!",
-        };
-    } catch (error) {
-        console.error("OpenAI API Error:", error);
-        throw new Error("Failed to generate website. Please try again.");
-    }
+    };
+  } catch (error) {
+    console.error("OpenAI API Error:", error);
+    throw new Error("Failed to generate website. Please try again.");
+  }
 }
 
 export async function chatWithAI(
     userMessage: string,
     conversationHistory: Array<{ role: string; content: string }>
 ): Promise<string> {
-    try {
-        const systemPrompt = `You are Akira, a friendly AI assistant that helps users build websites. 
+  try {
+    if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
+      throw new Error("OpenAI API key is not configured. Please add it to your .env.local file.");
+    }
+
+    const systemPrompt = `You are Akira, a friendly AI assistant that helps users build websites. 
     
 Your role:
 - Help users describe what kind of website they want

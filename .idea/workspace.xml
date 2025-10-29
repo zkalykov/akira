@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12ae2a45-72a3-4e0a-915b-94fc62061665" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/ApiKeyConfiguration.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/WebsiteGenerationService.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +109,7 @@
       <updated>1761141989109</updated>
       <workItem from="1761141990447" duration="527000" />
       <workItem from="1761665024188" duration="3164000" />
-      <workItem from="1761669914627" duration="12714000" />
+      <workItem from="1761669914627" duration="13715000" />
     </task>
     <servers />
   </component>
