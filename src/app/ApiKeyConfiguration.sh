@@ -1,2 +1,0 @@
-# Get your API key from: https://platform.openai.com/api-keys
-NEXT_PUBLIC_OPENAI_API_KEY=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
