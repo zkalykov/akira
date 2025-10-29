@@ -1,0 +1,2 @@
+# Get your API key from: https://platform.openai.com/api-keys
+NEXT_PUBLIC_OPENAI_API_KEY=ysk-proj-BYunCGh8gsCIYXM_i6-AOV6eXkTumVxozirErW39s3u5k4N3UbH5CpZCq6P0kwHxhsvg4Qjb1JT3BlbkFJPuQXRpYP9pcn4MGBvJW4BCg20q-rF_IaQqfA1d855sH4rUulrfoDTNWze5av8M-m725AG5IfEA
