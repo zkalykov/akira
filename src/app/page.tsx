@@ -2,8 +2,62 @@
 
 import { useState } from "react";
 
+interface Message {
+  id: string;
+  text: string;
+  sender: "user" | "ai";
+  timestamp: Date;
+}
+
 export default function Akira() {
   const [activeView, setActiveView] = useState("chat");
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "1",
+      text: "Hi! Describe the site you want.",
+      sender: "ai",
+      timestamp: new Date(),
+    },
+    {
+      id: "2",
+      text: "Make a landing page for an AI tool.",
+      sender: "user",
+      timestamp: new Date(),
+    },
+  ]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSendMessage = () => {
+    if (!inputValue.trim()) return;
+
+    // Add user message
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputValue,
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInputValue("");
+
+    // Simulate AI response after a short delay
+    setTimeout(() => {
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: "I understand! Let me help you with that.",
+        sender: "ai",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, aiMessage]);
+    }, 1000);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
 
   return (
     <div className="h-screen bg-white/6 text-white overflow-hidden">
@@ -88,21 +142,35 @@ export default function Akira() {
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-3 px-4 py-4">
-              <div className="max-w-[85%] mr-auto rounded-2xl border border-white/15 bg-black/40 px-3 py-2 text-sm text-zinc-200">
-                Hi! Describe the site you want.
-              </div>
-              <div className="max-w-[85%] ml-auto rounded-2xl border border-white/30 bg-white/10 px-3 py-2 text-sm">
-                Make a landing page for an AI tool.
-              </div>
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`max-w-[85%] ${
+                    message.sender === "ai" ? "mr-auto" : "ml-auto"
+                  } rounded-2xl border ${
+                    message.sender === "ai"
+                      ? "border-white/15 bg-black/40"
+                      : "border-white/30 bg-white/10"
+                  } px-3 py-2 text-sm ${
+                    message.sender === "ai" ? "text-zinc-200" : ""
+                  }`}
+                >
+                  {message.text}
+                </div>
+              ))}
             </div>
 
             <div className="border-t border-white/10 px-4 py-4 flex items-center gap-2">
               <input
                 className="flex-1 rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-zinc-500"
                 placeholder="Type a message…"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
               <button
                 type="button"
+                onClick={handleSendMessage}
                 className="rounded-lg border border-white/30 px-3 py-1.5 text-sm hover:border-white/50 transition cursor-pointer"
               >
                 Send
