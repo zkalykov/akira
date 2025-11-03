@@ -3,43 +3,53 @@
 import { useState } from "react";
 
 export default function Akira() {
-  const [activeView, setActiveView] = useState("chat");
+  const [activeView, setActiveView] = useState<"chat" | "preview">("chat");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="h-screen bg-white/6 text-white overflow-hidden">
+    <div
+      className="h-screen text-gray-900 overflow-hidden"
+      style={{
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+      }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
+        {/* LEFT: Chat Section */}
         <aside
-          className={`h-full p-3 md:p-5 overflow-hidden ${
+          className={`h-full overflow-hidden ${
             activeView === "chat" ? "block" : "hidden"
-          } lg:block`}
+          } lg:block lg:border-r lg:border-gray-200`}
+          style={{ backgroundColor: "#FFFFFF" }}
         >
-          <div className="relative h-full rounded-[18px] border border-white/30 bg-black overflow-hidden flex flex-col">
-            <div className="flex items-center gap-2 px-4 pt-4">
-              <div className="h-3 w-3 rounded-full bg-green-500" />
-              <span className="text-xs font-bold tracking-widest uppercase text-white/80">
+          <div className="h-full flex flex-col">
+            {/* Header */}
+            <div className="flex items-center gap-2 px-4 pt-4 pb-3">
+              <div className="h-3 w-3 rounded-full bg-emerald-500" />
+              <span className="text-xs font-semibold tracking-widest uppercase text-gray-600">
                 akira beta
               </span>
 
-              <button className="ml-auto flex items-center gap-1 bg-green-800 hover:bg-green-700 text-white font-bold text-sm px-3 py-1 rounded-lg transition group hover:cursor-pointer">
+              <button className="ml-auto flex items-center gap-2 bg-gray-900 hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-full transition-all hover:scale-105 cursor-pointer">
                 <span>Publish</span>
                 <svg
-                  className="w-3 h-3 transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1"
+                  className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="4"
+                  strokeWidth="2"
                   viewBox="0 0 24 24"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M7 17L17 7M17 7H9m8 0v8"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
                   />
                 </svg>
               </button>
 
               <button
                 onClick={() => setActiveView("preview")}
-                className="lg:hidden flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-3 py-1 rounded-lg transition"
+                className="lg:hidden ml-2 flex items-center gap-1 bg-gray-900 hover:bg-black text-white font-semibold text-sm px-3 py-1 rounded-lg transition cursor-pointer"
               >
                 <svg
                   className="w-4 h-4"
@@ -62,48 +72,77 @@ export default function Akira() {
                 <span>Preview</span>
               </button>
 
-              <div className="relative inline-block text-right">
-                <details className="group">
-                  <summary className="cursor-pointer select-none bg-white/10 hover:bg-white/20 border border-white/10 text-white/80 text-xs px-2.5 py-1.5 rounded-md transition flex items-center gap-1">
-                    <div className="space-y-0.5">
-                      <div className="w-3 h-0.5 bg-white/80"></div>
-                      <div className="w-3 h-0.5 bg-white/80"></div>
-                      <div className="w-3 h-0.5 bg-white/80"></div>
-                    </div>
-                  </summary>
+              {/* Menu Button */}
+              <div className="relative">
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="p-2 rounded-lg transition-colors cursor-pointer"
+                >
+                  <svg
+                    className="w-6 h-6 text-gray-900"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                </button>
 
-                  <ul className="absolute right-0 mt-2 w-36 bg-black/80 backdrop-blur-md border border-white/10 rounded-md shadow-xl z-50">
-                    <li className="px-3 py-2 text-white/80 hover:bg-white/10 cursor-pointer text-sm">
-                      Profile
-                    </li>
-                    <li className="px-3 py-2 text-white/80 hover:bg-white/10 cursor-pointer text-sm">
-                      Settings
-                    </li>
-                    <li className="px-3 py-2 text-white/80 hover:bg-white/10 cursor-pointer text-sm">
-                      Logout
-                    </li>
-                  </ul>
-                </details>
+                {menuOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setMenuOpen(false)}
+                    />
+                    <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-50">
+                      <li
+                        onClick={() => setMenuOpen(false)}
+                        className="px-4 py-3 text-gray-900 hover:bg-gray-50 cursor-pointer text-sm font-medium border-b border-gray-100"
+                      >
+                        Profile
+                      </li>
+                      <li
+                        onClick={() => setMenuOpen(false)}
+                        className="px-4 py-3 text-gray-900 hover:bg-gray-50 cursor-pointer text-sm font-medium border-b border-gray-100"
+                      >
+                        Settings
+                      </li>
+                      <li
+                        onClick={() => setMenuOpen(false)}
+                        className="px-4 py-3 text-gray-900 hover:bg-gray-50 cursor-pointer text-sm font-medium"
+                      >
+                        Logout
+                      </li>
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-3 px-4 py-4">
-              <div className="max-w-[85%] mr-auto rounded-2xl border border-white/15 bg-black/40 px-3 py-2 text-sm text-zinc-200">
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto space-y-4 px-5 py-6">
+              <div className="max-w-[85%] mr-auto rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800">
                 Hi! Describe the site you want.
               </div>
-              <div className="max-w-[85%] ml-auto rounded-2xl border border-white/30 bg-white/10 px-3 py-2 text-sm">
+              <div className="max-w-[85%] ml-auto rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900">
                 Make a landing page for an AI tool.
               </div>
             </div>
 
-            <div className="border-t border-white/10 px-4 py-4 flex items-center gap-2">
+            {/* Input */}
+            <div className="border-t border-gray-200 px-4 py-4 flex items-center gap-2">
               <input
-                className="flex-1 rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-zinc-500"
+                className="flex-1 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-gray-200"
                 placeholder="Type a message…"
               />
               <button
                 type="button"
-                className="rounded-lg border border-white/30 px-3 py-1.5 text-sm hover:border-white/50 transition cursor-pointer"
+                className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition cursor-pointer"
               >
                 Send
               </button>
@@ -112,14 +151,15 @@ export default function Akira() {
         </aside>
 
         <section
-          className={`h-full p-3 md:p-5 overflow-hidden ${
+          className={`h-full overflow-hidden ${
             activeView === "preview" ? "block" : "hidden"
           } lg:block lg:col-span-2`}
+          style={{ backgroundColor: "#FFFFFF" }}
         >
-          <div className="relative h-full rounded-[18px] border border-white/30 bg-black overflow-hidden">
+          <div className="h-full">
             <button
               onClick={() => setActiveView("chat")}
-              className="lg:hidden absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-sm hover:bg-black/80 text-white font-medium text-sm px-4 py-2 rounded-lg transition border border-white/20"
+              className="lg:hidden absolute top-4 left-4 z-20 flex items-center gap-2 bg-gray-900 hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-lg transition border border-gray-200"
             >
               <svg
                 className="w-4 h-4"
@@ -137,8 +177,8 @@ export default function Akira() {
               <span>Back to Chat</span>
             </button>
 
-            <div className="relative z-10 h-full overflow-y-auto">
-              <h1 className="text-2xl md:text-3xl font-semibold tracking-tight justify-center flex h-screen items-center">
+            <div className="h-full overflow-y-auto">
+              <h1 className="text-2xl md:text-3xl font-semibold tracking-tight justify-center flex h-screen items-center text-gray-900">
                 Build and deploy on the AI Cloud.
               </h1>
             </div>
