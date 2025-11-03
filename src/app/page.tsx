@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Akira() {
   const [activeView, setActiveView] = useState<"chat" | "preview">("chat");
   const [menuOpen, setMenuOpen] = useState(false);
-
+  // TEST 1
   return (
     <div
       className="h-screen text-gray-900 overflow-hidden"
