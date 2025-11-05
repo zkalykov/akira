@@ -31,14 +31,15 @@ export default function ChatSidebar({
 }: ChatSidebarProps) {
   return (
     <aside
-      className={`h-full p-3 md:p-5 overflow-hidden ${
+      className={`h-full overflow-hidden ${
         activeView === "chat" ? "block" : "hidden"
-      } lg:block`}
+      } lg:block lg:border-r lg:border-gray-200`}
+      style={{ backgroundColor: "#FFFFFF" }}
     >
-      <div className="relative h-full rounded-[18px] border border-white/30 bg-black overflow-hidden flex flex-col">
+      <div className="h-full flex flex-col">
         <ChatHeader onPreviewClick={onPreviewClick} />
 
-        <div className="flex-1 overflow-y-auto space-y-3 px-4 py-4">
+        <div className="flex-1 overflow-y-auto space-y-4 px-5 py-6">
           {messages.map((message) => (
             <ChatMessage
               key={message.id}

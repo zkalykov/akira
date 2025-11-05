@@ -2,86 +2,92 @@ import OpenAI from "openai";
 
 // Initialize OpenAI client - reads from .env.local automatically
 const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true,
 });
 
 export interface GeneratedWebsite {
-    html: string;
-    css: string;
-    js: string;
-    message: string;
+  html: string;
+  css: string;
+  js: string;
+  message: string;
 }
 
 // Replace AI image placeholders in HTML by generating images via OpenAI
 // Placeholder format: <img ... src="{{AI_IMAGE: a detailed description of the desired image}}" ... />
 const IMAGE_GEN_ENABLED =
-    (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_ENABLE_IMAGE_GEN === "true") || false;
+  (typeof process !== "undefined" &&
+    process.env?.NEXT_PUBLIC_ENABLE_IMAGE_GEN === "true") ||
+  false;
 
 async function injectGeneratedImagesIntoHtml(html: string): Promise<string> {
-    try {
-        const regex = /src\s*=\s*["']\{\{AI_IMAGE:\s*([^}]+)\}\}["']/g;
-        const matches = [...html.matchAll(regex)];
-        if (matches.length === 0) return html;
+  try {
+    const regex = /src\s*=\s*["']\{\{AI_IMAGE:\s*([^}]+)\}\}["']/g;
+    const matches = [...html.matchAll(regex)];
+    if (matches.length === 0) return html;
 
-        let updatedHtml = html;
-        for (const match of matches) {
-            const fullMatch = match[0];
-            const prompt = match[1].trim();
+    let updatedHtml = html;
+    for (const match of matches) {
+      const fullMatch = match[0];
+      const prompt = match[1].trim();
 
-            // If image generation is disabled (or not permitted), use an Unsplash fallback
-            if (!IMAGE_GEN_ENABLED) {
-                const keywords = prompt
-                    .toLowerCase()
-                    .replace(/[^a-z0-9\s,]/g, " ")
-                    .split(/\s+/)
-                    .filter((w) => w.length > 2)
-                    .slice(0, 6)
-                    .join(",");
-                const unsplash = `https://source.unsplash.com/1024x1024/?${encodeURIComponent(keywords || "design,web")}`;
-                updatedHtml = updatedHtml.replace(fullMatch, `src="${unsplash}"`);
-                continue;
-            }
+      // If image generation is disabled (or not permitted), use an Unsplash fallback
+      if (!IMAGE_GEN_ENABLED) {
+        const keywords = prompt
+          .toLowerCase()
+          .replace(/[^a-z0-9\s,]/g, " ")
+          .split(/\s+/)
+          .filter((w) => w.length > 2)
+          .slice(0, 6)
+          .join(",");
+        const unsplash = `https://source.unsplash.com/1024x1024/?${encodeURIComponent(
+          keywords || "design,web"
+        )}`;
+        updatedHtml = updatedHtml.replace(fullMatch, `src="${unsplash}"`);
+        continue;
+      }
 
-            try {
-                const img = await openai.images.generate({
-                    model: "gpt-image-1",
-                    prompt,
-                    size: "1024x1024",
-                });
+      try {
+        const img = await openai.images.generate({
+          model: "gpt-image-1",
+          prompt,
+          size: "1024x1024",
+        });
 
-                const b64 = img.data?.[0]?.b64_json;
-                if (b64) {
-                    const dataUrl = `data:image/png;base64,${b64}`;
-                    updatedHtml = updatedHtml.replace(fullMatch, `src="${dataUrl}"`);
-                } else {
-                    const placeholder = "https://placehold.co/1024x1024?text=Image";
-                    updatedHtml = updatedHtml.replace(fullMatch, `src="${placeholder}"`);
-                }
-            } catch (err) {
-                console.error("Image generation failed for prompt:", prompt, err);
-                // Fallback placeholder if image generation fails
-                const placeholder = "https://placehold.co/1024x1024?text=Image";
-                updatedHtml = updatedHtml.replace(fullMatch, `src="${placeholder}"`);
-            }
+        const b64 = img.data?.[0]?.b64_json;
+        if (b64) {
+          const dataUrl = `data:image/png;base64,${b64}`;
+          updatedHtml = updatedHtml.replace(fullMatch, `src="${dataUrl}"`);
+        } else {
+          const placeholder = "https://placehold.co/1024x1024?text=Image";
+          updatedHtml = updatedHtml.replace(fullMatch, `src="${placeholder}"`);
         }
-
-        return updatedHtml;
-    } catch (err) {
-        console.error("injectGeneratedImagesIntoHtml error:", err);
-        return html;
+      } catch (err) {
+        console.error("Image generation failed for prompt:", prompt, err);
+        // Fallback placeholder if image generation fails
+        const placeholder = "https://placehold.co/1024x1024?text=Image";
+        updatedHtml = updatedHtml.replace(fullMatch, `src="${placeholder}"`);
+      }
     }
+
+    return updatedHtml;
+  } catch (err) {
+    console.error("injectGeneratedImagesIntoHtml error:", err);
+    return html;
+  }
 }
 
 export async function generateWebsite(
-    userPrompt: string
+  userPrompt: string
 ): Promise<GeneratedWebsite> {
-    try {
-        if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
-            throw new Error("OpenAI API key is not configured. Please add it to your .env.local file.");
-        }
+  try {
+    if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
+      throw new Error(
+        "OpenAI API key is not configured. Please add it to your .env.local file."
+      );
+    }
 
-        const systemPrompt = `You are GPT-5 Thinking mini, an expert senior full-stack engineer, UI/UX architect, accessibility specialist, and SEO engineer. Your job is to generate complete, production-ready HTML, Tailwind-based CSS (utilities + small custom CSS if needed), and vanilla JavaScript for professional websites and web apps.
+    const systemPrompt = `You are GPT-5 Thinking mini, an expert senior full-stack engineer, UI/UX architect, accessibility specialist, and SEO engineer. Your job is to generate complete, production-ready HTML, Tailwind-based CSS (utilities + small custom CSS if needed), and vanilla JavaScript for professional websites and web apps.
 
 You MUST return output in valid JSON only with this exact structure:
 
@@ -342,50 +348,55 @@ The assistant’s response MUST be a single JSON object with "html", "css", "js"
 
 No code fences, no extra keys, no non-JSON text. If invalid JSON would be produced, the assistant must correct it before returning.`;
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                {role: "system", content: systemPrompt},
-                {role: "user", content: userPrompt},
-            ],
-            temperature: 0.7,
-            max_tokens: 3000,
-        });
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+      temperature: 0.7,
+      max_tokens: 3000,
+    });
 
-        const response = completion.choices[0].message.content;
+    const response = completion.choices[0].message.content;
+    console.log("OpenAI raw response:", response);
 
-        if (!response) {
-            throw new Error("No response from OpenAI");
-        }
-
-        // Parse the JSON response
-        const result = JSON.parse(response);
-
-        // Replace any AI image placeholders with generated images
-        const htmlWithImages = await injectGeneratedImagesIntoHtml(result.html || "");
-
-        return {
-            html: htmlWithImages || "",
-            css: result.css || "",
-            js: result.js || "",
-            message: result.message || "I've created your website!",
-        };
-    } catch (error) {
-        console.error("OpenAI API Error:", error);
-        throw new Error("Failed to generate website. Please try again.");
+    if (!response) {
+      throw new Error("No response from OpenAI");
     }
+
+    // Parse the JSON response
+    const result = JSON.parse(response);
+
+    // Replace any AI image placeholders with generated images
+    const htmlWithImages = await injectGeneratedImagesIntoHtml(
+      result.html || ""
+    );
+
+    return {
+      html: htmlWithImages || "",
+      css: result.css || "",
+      js: result.js || "",
+      message: result.message || "I've created your website!",
+    };
+  } catch (error) {
+    console.error("OpenAI API Error:", error);
+    throw new Error("Failed to generate website. Please try again.");
+  }
 }
 
 export async function chatWithAI(
-    userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>
+  userMessage: string,
+  conversationHistory: Array<{ role: string; content: string }>
 ): Promise<string> {
-    try {
-        if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
-            throw new Error("OpenAI API key is not configured. Please add it to your .env.local file.");
-        }
+  try {
+    if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
+      throw new Error(
+        "OpenAI API key is not configured. Please add it to your .env.local file."
+      );
+    }
 
-        const systemPrompt = `You are Akira, a friendly AI assistant that helps users build websites. 
+    const systemPrompt = `You are Akira, a friendly AI assistant that helps users build websites. 
     
 Your role:
 - Help users describe what kind of website they want
@@ -396,25 +407,25 @@ Your role:
 
 Don't generate code in this chat - just have a conversation to understand their needs.`;
 
-        const messages = [
-            {role: "system", content: systemPrompt},
-            ...conversationHistory,
-            {role: "user", content: userMessage},
-        ];
+    const messages = [
+      { role: "system", content: systemPrompt },
+      ...conversationHistory,
+      { role: "user", content: userMessage },
+    ];
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: messages as any,
-            temperature: 0.8,
-            max_tokens: 500,
-        });
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: messages as any,
+      temperature: 0.8,
+      max_tokens: 500,
+    });
 
-        return (
-            completion.choices[0].message.content ||
-            "I'm here to help! What would you like to build?"
-        );
-    } catch (error) {
-        console.error("OpenAI Chat Error:", error);
-        return "I'm having trouble connecting right now. Please try again.";
-    }
+    return (
+      completion.choices[0].message.content ||
+      "I'm here to help! What would you like to build?"
+    );
+  } catch (error) {
+    console.error("OpenAI Chat Error:", error);
+    return "I'm having trouble connecting right now. Please try again.";
+  }
 }
