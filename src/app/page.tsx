@@ -190,20 +190,14 @@ export default function Akira() {
             </button>
 
             {/* Preview Display */}
-            <div className="h-full overflow-y-auto flex items-center justify-center px-4">
-              {websiteCode.html || websiteCode.css || websiteCode.js ? (
-                <Preview
-                  activeView={activeView}
-                  onBackToChat={() => setActiveView("chat")}
-                  html={websiteCode.html}
-                  css={websiteCode.css}
-                  js={websiteCode.js}
-                />
-              ) : (
-                <h1 className="text-2xl md:text-3xl font-semibold tracking-tight justify-center flex h-screen items-center text-gray-900">
-                  Build and deploy on the AI Cloud.
-                </h1>
-              )}
+            <div className="h-full w-full overflow-y-auto flex">
+              <Preview
+                activeView={activeView}
+                onBackToChat={() => setActiveView("chat")}
+                html={websiteCode.html}
+                css={websiteCode.css}
+                js={websiteCode.js}
+              />
             </div>
           </div>
         </section>
