@@ -72,7 +72,7 @@ export default function Preview({
         activeView === "preview" ? "block" : "hidden"
       } lg:block lg:col-span-2`}
     >
-      <div className="relative h-full w-full rounded-[18px] border border-white/30 bg-black overflow-hidden">
+      <div className="relative h-full w-full rounded-[18px] border border-white/30 bg-none overflow-hidden">
         <button
           onClick={onBackToChat}
           className="lg:hidden absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-sm hover:bg-black/80 text-white font-medium text-sm px-4 py-2 rounded-lg transition border border-white/20"
@@ -103,7 +103,7 @@ export default function Preview({
             />
           ) : (
             <div className="flex items-center justify-center h-full w-full">
-              <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-white/60">
+              <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-black/60">
                 Preview will appear here
               </h1>
             </div>
