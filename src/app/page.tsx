@@ -149,7 +149,6 @@ export default function Akira() {
       }}
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
-        {/* LEFT: Chat Section */}
         <ChatSidebar
           activeView={activeView}
           messages={messages}
