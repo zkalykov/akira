@@ -25,7 +25,7 @@ export default function Akira() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hi! I'm Akira, your AI website builder. Describe the website you want to create, and I'll help you build it!",
+      text: "Hi! I'm Akira, Your AI website builder. Describe the website you want to create, and I'll help you build it!",
       sender: "ai",
       timestamp: new Date(),
     },
