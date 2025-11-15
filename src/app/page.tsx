@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Preview from "./Preview";
-import ChatSidebar from "../components/chat_sidebar_props/ChatSideBarProps"; // ✅ Fixed import path (match file name exactly)
+
 import { generateWebsite, chatWithAI } from "./WebsiteGenerationService";
 
 interface Message {
@@ -141,32 +141,16 @@ export default function Akira() {
 
   // === UI SECTION ===
   return (
-    <div
-      className="h-screen text-gray-900 overflow-hidden"
-      style={{
-        backgroundColor: "#FFFFFF",
-        fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-      }}
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
-        <ChatSidebar
-          activeView={activeView}
-          messages={messages}
-          inputValue={inputValue}
-          isLoading={isLoading}
-          onInputChange={setInputValue}
-          onSendMessage={handleSendMessage}
-          onPreviewClick={() => setActiveView("preview")}
-        />
+    <div className="h-screen text-gray-900 overflow-hidden">
+      {/* Main Split: 1/3 left, 2/3 right */}
+      <div className="flex h-full">
+        {/* LEFT (1/3) */}
+        <div className="flex-1"></div>
 
-        {/* RIGHT: Preview Section */}
-        <section
-          className={`h-full overflow-hidden ${
-            activeView === "preview" ? "block" : "hidden"
-          } lg:block lg:col-span-2`}
-          style={{ backgroundColor: "#FFFFFF" }}
-        >
-          <div className="h-full relative">
+        {/* RIGHT (2/3) */}
+        <div className="flex-[2] flex flex-col">
+          {/* RIGHT TOP (flex 1) */}
+          <div className="flex-1 border-b border-gray-200 p-2">
             {/* Back Button for Mobile */}
             <button
               onClick={() => setActiveView("chat")}
@@ -187,9 +171,11 @@ export default function Akira() {
               </svg>
               <span>Back to Chat</span>
             </button>
+          </div>
 
-            {/* Preview Display */}
-            <div className="h-full w-full overflow-y-auto flex">
+          {/* RIGHT BOTTOM (flex 10) */}
+          <div className="flex-[20] overflow-hidden bg-white">
+            <div className="h-full w-full overflow-y-auto">
               <Preview
                 activeView={activeView}
                 onBackToChat={() => setActiveView("chat")}
@@ -199,7 +185,7 @@ export default function Akira() {
               />
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   );

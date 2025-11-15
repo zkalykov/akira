@@ -25,8 +25,6 @@ export default function Preview({
       const document = iframe.contentDocument;
 
       if (document) {
-        // REMOVED viewport meta tag for desktop layout
-        // Changed to Tailwind CDN for better compatibility
         const fullPage = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,10 +70,10 @@ export default function Preview({
         activeView === "preview" ? "block" : "hidden"
       } lg:block lg:col-span-2`}
     >
-      <div className="relative h-full w-full rounded-[18px] border border-white/30 bg-none overflow-hidden">
+      <div className="relative h-full w-full rounded-[18px] border border-white/30 overflow-hidden">
         <button
           onClick={onBackToChat}
-          className="lg:hidden absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-sm hover:bg-black/80 text-white font-medium text-sm px-4 py-2 rounded-lg transition border border-white/20"
+          className="lg:hidden absolute top-4 left-4 z-20 flex items-center gap-2 backdrop-blur-sm text-white font-medium text-sm px-4 py-2 rounded-lg transition border border-white/20"
         >
           <svg
             className="w-4 h-4"
@@ -93,19 +91,17 @@ export default function Preview({
           <span>Back to Chat</span>
         </button>
 
-        <div className="relative z-10 h-full w-full overflow-hidden">
+        <div className="">
           {html || css || js ? (
             <iframe
               ref={iframeRef}
               title="Website Preview"
-              className="w-full h-full bg-white border-0"
+              className="w-full h-full border-0"
               sandbox="allow-scripts allow-forms allow-modals allow-popups allow-same-origin"
             />
           ) : (
             <div className="flex items-center justify-center h-full w-full">
-              <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-black/60">
-                Preview will appear here
-              </h1>
+              <h1 className="">Preview will appear here</h1>
             </div>
           )}
         </div>
