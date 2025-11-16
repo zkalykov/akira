@@ -65,7 +65,7 @@ export const PromptInputTextarea = ({
       className={cn(
         'w-full resize-none rounded-none border-none p-3 shadow-none outline-none ring-0',
         'field-sizing-content max-h-[6lh] bg-transparent dark:bg-transparent',
-        'focus-visible:ring-0',
+        'focus-visible:ring-0 text-base',
         className
       )}
       name="message"
@@ -74,6 +74,7 @@ export const PromptInputTextarea = ({
       }}
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
+      style={{ fontSize: '16px' }}
       {...props}
     />
   );
