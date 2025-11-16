@@ -199,7 +199,7 @@ export default function Akira() {
 
   // === UI SECTION ===
   return (
-    <div className="h-screen text-gray-900 overflow-hidden">
+    <div className="h-[100dvh] md:h-screen text-gray-900 overflow-hidden">
       {/* Main Split: 1/3 left, 2/3 right */}
       <div className="flex h-full">
         {/* LEFT (1/3) - Hidden on mobile when preview is shown */}
@@ -258,7 +258,7 @@ export default function Akira() {
             </Button>
           </div>
           {/* LEFT BOTTOM (flex 20) */}
-          <div className="flex-[20] overflow-y-auto p-4">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4">
             {/* Messages area - you can add your chat messages here */}
             <div className="space-y-4">
               {messages.map((message) => (
@@ -289,7 +289,7 @@ export default function Akira() {
               ))}
             </div>
           </div>
-          <div className="p-4 border-t">
+          <div className="flex-none p-4 border-t bg-background">
             <PromptInput onSubmit={handlePromptSubmit}>
               <PromptInputTextarea
                 onChange={(e) => setPromptText(e.target.value)}
