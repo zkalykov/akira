@@ -78,7 +78,9 @@ export default function Akira() {
   ];
 
   // === PROMPT INPUT HANDLER ===
-  const handlePromptSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+  const handlePromptSubmit: FormEventHandler<HTMLFormElement> = async (
+    event
+  ) => {
     event.preventDefault();
     if (!promptText.trim() || isLoading) {
       return;
@@ -87,7 +89,7 @@ export default function Akira() {
     const userMessageText = promptText.trim();
     setPromptText("");
     setPromptStatus("submitted");
-    
+
     // Use the prompt text directly
     await handleSendMessageWithText(userMessageText);
   };
@@ -203,14 +205,24 @@ export default function Akira() {
       {/* Main Split: 1/3 left, 2/3 right */}
       <div className="flex h-full">
         {/* LEFT (1/3) - Hidden on mobile when preview is shown */}
-        <div className={`flex-1 border-r flex flex-col ${showPreview ? 'hidden md:flex' : 'flex'}`}>
+        <div
+          className={`flex-1 border-r flex flex-col ${
+            showPreview ? "hidden md:flex" : "flex"
+          }`}
+        >
           {/* LEFT TOP (flex 1) */}
           <div className="pl-5 flex-none border-b border-gray-200 p-2 h-14 flex items-center justify-between relative">
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full"
+                >
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="@shadcn" />
+                    <AvatarImage
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
+                      alt="@shadcn"
+                    />
                     <AvatarFallback>SC</AvatarFallback>
                   </Avatar>
                 </Button>
@@ -218,7 +230,10 @@ export default function Akira() {
               <PopoverContent className="w-56 ml-3" align="end">
                 <div className="flex items-center space-x-2 p-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="@shadcn" />
+                    <AvatarImage
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
+                      alt="@shadcn"
+                    />
                     <AvatarFallback>SC</AvatarFallback>
                   </Avatar>
                   <div className="space-y-1">
@@ -230,27 +245,39 @@ export default function Akira() {
                 </div>
                 <Separator className="my-2" />
                 <div className="grid gap-1">
-                  <Button variant="ghost" className="w-full justify-start" size="sm">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    size="sm"
+                  >
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" size="sm">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    size="sm"
+                  >
                     <Settings className="mr-2 h-4 w-4" />
                     Settings
                   </Button>
                   <Separator className="my-1" />
-                  <Button variant="ghost" className="w-full justify-start" size="sm">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    size="sm"
+                  >
                     <LogOut className="mr-2 h-4 w-4" />
                     Log out
                   </Button>
                 </div>
               </PopoverContent>
             </Popover>
-            <div className="absolute left-1/2 transform -translate-x-1/2">
+            <div className="absolute left-1/2 transform -translate-x-[45%]">
               <AkiraLogo className="w-100 h-10" />
             </div>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setShowPreview(true)}
               className="md:hidden"
             >
@@ -324,52 +351,25 @@ export default function Akira() {
                     </PromptInputModelSelectContent>
                   </PromptInputModelSelect>
                 </PromptInputTools>
-                <PromptInputSubmit disabled={!promptText} status={promptStatus} />
+                <PromptInputSubmit
+                  disabled={!promptText}
+                  status={promptStatus}
+                />
               </PromptInputToolbar>
             </PromptInput>
           </div>
         </div>
 
         {/* RIGHT (2/3) - Full screen on mobile when preview is shown */}
-        <div className={`flex-[2] flex flex-col ${showPreview ? 'flex' : 'hidden md:flex'}`}>
+        <div
+          className={`flex-[2] flex flex-col ${
+            showPreview ? "flex" : "hidden md:flex"
+          }`}
+        >
           {/* RIGHT TOP (flex 1) */}
           <div className="flex-none border-b border-gray-200 p-2 h-14">
             {/* Make following div align left but gap between 5px */}
             <div className="flex justify-start items-center gap-[5px]">
-              <Button 
-                variant="outline" 
-                onClick={() => setShowPreview(false)}
-                className="md:hidden"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Close View
-              </Button>
-              <Button variant="outline" disabled className="hidden md:inline-flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Close View
-              </Button>
               <Button variant="outline">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -400,6 +400,25 @@ export default function Akira() {
                   />
                 </svg>
                 Publish
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowPreview(false)}
+                className="md:hidden"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Close
               </Button>
             </div>
           </div>
