@@ -223,7 +223,7 @@ export default function Akira() {
                       src="https://i.pinimg.com/736x/be/fd/e9/befde9e79bcc8afe2ced53377fe3ace8.jpg"
                       alt="@aka"
                     />
-                    <AvatarFallback>SC</AvatarFallback>
+                    <AvatarFallback>AkA</AvatarFallback>
                   </Avatar>
                 </Button>
               </PopoverTrigger>
@@ -237,9 +237,9 @@ export default function Akira() {
                     <AvatarFallback>SC</AvatarFallback>
                   </Avatar>
                   <div className="space-y-1">
-                    <h4 className="text-sm font-semibold">@shadcn</h4>
+                    <h4 className="text-sm font-semibold">@Akira</h4>
                     <p className="text-xs text-muted-foreground">
-                      shadcn@example.com
+                      akira@akira.com
                     </p>
                   </div>
                 </div>

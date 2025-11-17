@@ -71,26 +71,6 @@ export default function Preview({
       } lg:block lg:col-span-2`}
     >
       <div className="relative h-full w-full rounded-[18px] border border-white/30 overflow-hidden">
-        <button
-          onClick={onBackToChat}
-          className="lg:hidden absolute top-4 left-4 z-20 flex items-center gap-2 backdrop-blur-sm text-white font-medium text-sm px-4 py-2 rounded-lg transition border border-white/20"
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          <span>Back to Chat</span>
-        </button>
-
         <div className="">
           {html || css || js ? (
             <iframe
@@ -100,8 +80,8 @@ export default function Preview({
               sandbox="allow-scripts allow-forms allow-modals allow-popups allow-same-origin"
             />
           ) : (
-            <div className="flex items-center justify-center h-full w-full">
-              <h1 className="">Preview will appear here</h1>
+            <div className="relative flex items-center justify-center h-full w-full translte-y-1/2">
+              <h1 className="text">Preview will appear here</h1>
             </div>
           )}
         </div>
