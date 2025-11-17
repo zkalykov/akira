@@ -206,7 +206,7 @@ export default function Akira() {
       <div className="flex h-full">
         {/* LEFT (1/3) - Hidden on mobile when preview is shown */}
         <div
-          className={`flex-1 border-r flex flex-col ${
+          className={`flex-1 border-r border-l flex flex-col ${
             showPreview ? "hidden md:flex" : "flex"
           }`}
         >
@@ -220,8 +220,8 @@ export default function Akira() {
                 >
                   <Avatar className="h-8 w-8">
                     <AvatarImage
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
-                      alt="@shadcn"
+                      src="https://i.pinimg.com/736x/be/fd/e9/befde9e79bcc8afe2ced53377fe3ace8.jpg"
+                      alt="@aka"
                     />
                     <AvatarFallback>SC</AvatarFallback>
                   </Avatar>
@@ -231,8 +231,8 @@ export default function Akira() {
                 <div className="flex items-center space-x-2 p-2">
                   <Avatar className="h-8 w-8">
                     <AvatarImage
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
-                      alt="@shadcn"
+                      src="https://i.pinimg.com/736x/be/fd/e9/befde9e79bcc8afe2ced53377fe3ace8.jpg"
+                      alt="@aka"
                     />
                     <AvatarFallback>SC</AvatarFallback>
                   </Avatar>
