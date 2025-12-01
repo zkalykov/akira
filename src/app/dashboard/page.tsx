@@ -9,7 +9,7 @@ import {
   chatWithAI,
   classifyIntent,
   type GeneratedWebsite,
-} from "./WebsiteGenerationService";
+} from "./actions";
 import { Button } from "@/components/ui/button";
 import {
   PromptInput,
