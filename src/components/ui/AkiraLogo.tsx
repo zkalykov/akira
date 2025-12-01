@@ -12,14 +12,14 @@ export function AkiraLogo(props: React.SVGProps<SVGSVGElement>) {
           x="20"
           y="55"
           // fill="#000000"
-          fill="#0F0F0F"
+          fill="currentColor"
           fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           fontWeight="800"
           fontStyle="normal"
           fontSize="42"
           letterSpacing="1"
         >
-          AkA
+          Akira
         </text>
       </g>
     </svg>
